@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUT_DIR="./out"
+OUT_DIR="/tmp"
 
 RESOLUTION=100
 SAMPLINGS=128
@@ -14,8 +14,8 @@ if ${TEST}; then
   ANIM_FRAMES_OPTION="--render-frame 1..5"
 fi
 
-# Create the output directory
-mkdir -p ${OUT_DIR}
+# Currently running blender as a container?
+alias blender='docker run -v /efs:/tmp -w /tmp/blender-cli-rendering --gpus all nytimes/blender:2.82-gpu-ubuntu18.04 blender -E CYCLES'
 
 # Run the scripts
 blender --background --python ./01_cube.py --render-frame 1 -- ${OUT_DIR}/01_cube_ ${RESOLUTION} ${SAMPLINGS}
